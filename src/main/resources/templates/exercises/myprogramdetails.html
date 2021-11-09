@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<table>
+
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Calories burned for 30mins</th>
+        <th>Bonus info</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="a,iterStatus : ${programDetails.exerciseEntityDtoList}">
+        <td th:text="${a.nameOfExercise}">
+        <td th:text="${a.caloriesBurnedForHour}">
+        <td th:text="${a.bonusInfo}">
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

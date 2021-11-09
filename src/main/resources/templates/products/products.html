@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #customers {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #customers td, #customers th {
+            border: 1px solid #ddd;
+            padding: 8px;
+            color: black;
+            font-weight: bold;
+        }
+
+        #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+        #customers tr:hover {background-color: #ddd;}
+
+        #customers th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #868a71;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+<div th:replace="fragments/navbar" :: navbar>
+    Navbar
+</div>
+
+
+<table id="customers">
+
+    <thead>
+    <tr>
+        <th>name</th>
+        <th class="col">For</th>
+        <th class="col">Price</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.name}">
+        <td th:text="${product.bestFor}">
+        <td th:text="${product.price}">
+
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

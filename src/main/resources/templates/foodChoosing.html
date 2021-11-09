@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food</title>
+
+</head>
+<body>
+
+<form th:action="@{/choosing/food}" th:object="${foodDto}" method="post">
+
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+            <th>Select</th>
+            <!--      <th>Client ID</th>-->
+            <th>Type of Sport</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="currentFood, stat : ${foodDto.foodDtoList}">
+            <td>
+                <!--                <label th:for="|exerciseDtoList[${itemStat.index}].nameOfExercise|" th:text="${currentExercise.getNameOfExercise()}">Ex name</label>-->
+                <input type="checkbox"
+                       th:name="|foodDtoList[${stat.index}].id|"
+                       th:value="${currentFood.getId()} "
+                /></td>
+            <td th:text="${currentFood.name}"></td>
+
+        </tr>
+        </tbody>
+    </table>
+    <button type="submit" value="submit" class="btn btn-success">Submit</button>
+</form>
+</body>
+</html>
+
+<!--//th:text е за изписване-->
+<!--//th:object е за пращане на данни-->
+<!--//th:field е за записване в конкретно поле-->

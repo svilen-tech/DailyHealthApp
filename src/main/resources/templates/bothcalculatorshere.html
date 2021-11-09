@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Pattaya|Poppins:400,500&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{../css/bodyfat.css}"/>
+    <title>Calculators</title>
+
+</head>
+<body >
+<div th:replace="fragments/navbar" :: navbar>
+    Navbar
+</div>
+<div id="first" style="display:block">
+    <form id="BodyMass" th:action="@{/calculators/bodymass}" th:object="${bodyMassDto}" method="post">
+
+        <div class="form-group">
+            <div class="form-group col-md-3">
+                <label for="age">Age</label>
+                <input id="agee" class="form-control" th:field="*{age}">
+
+            </div>
+            <div class="form-group col-md-3">
+                <label for="weight">Weight</label>
+                <input type="text" class="form-control" id="weight" th:field="*{weight}">
+
+            </div>
+            <div class="form-group col-md-3">
+                <label for="height">Height</label>
+                <input type="text" class="form-control" id="height" th:field="*{height}">
+
+            </div>
+
+
+        </div>
+        <div class="form-group">
+            <p>Your BMI is: <span th:text="${bodyMassIndex}"></span></p>
+        </div>
+
+        <button type="submit" class="btn-lg btn-outline-success">Send</button>
+    </form>
+</div>
+<div id="second" style="display: none">
+    <form id="BodyFat" th:action="@{/calculators/bodyfat}" th:object="${bodyFatDto}" method="post">
+
+        <div class="form-group">
+            <div class="form-group col-md-3">
+                <label for="age">Age</label>
+                <input id="age" class="form-control" th:field="*{age}">
+
+            </div>
+            <div class="form-group col-md-3">
+                <label for="bmi">BMI</label>
+                <input type="text" class="form-control" id="bmi" th:field="*{BMI}">
+
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="gender">Gender: </label>
+                <select id="gender" class="form-control" name="gender" th:field="*{genderEnum}">
+                    <option th:each="gender : ${T(com.example.dailyhealth.model.entities.enums.GenderEnum).values()}"
+                            th:value="${gender}" th:text="${gender}"></option>
+                </select>
+            </div>
+
+
+        </div>
+        <div class="form-group">
+            <p>Your Bodyfat % is: <span id="bodyfetpercentage" th:text="${bodyFatPercentage}"></span></p>
+        </div>
+
+        <button type="submit" class="btn-lg btn-outline-success">Send</button>
+
+
+    </form>
+</div>
+<!--<form th:action="@{/bodyfat}">-->
+<!--    <button type="submit" class="btn-lg btn-outline-info">Check your body fat percentage</button>-->
+<!--</form>-->
+<button onclick="Prev()">Prev</button>
+<button onclick="Next()">Next</button>
+<p onload="codeAddress();" id="kur"></p>
+</body>
+<script>
+    var arr = ["first",
+        "second"];
+
+    var index = 0;
+    function codeAddress() {
+        var current = document.getElementById("kur");
+
+    }
+    window.onload = codeAddress;
+    function Next() {
+        var current = document.getElementById(arr[index]);
+        if (index<arr.length-1){
+            current.style.display = "none";
+            var next = document.getElementById(arr[++index])
+            next.style.display="block"
+        }
+
+    }
+    function Prev(){
+
+        if(index!=0){
+            var current = document.getElementById(arr[index]);
+            current.style.display = "none";
+            var prev = document.getElementById(arr[--index])
+            prev.style.display="block"
+        }
+    }
+</script>
+</html>

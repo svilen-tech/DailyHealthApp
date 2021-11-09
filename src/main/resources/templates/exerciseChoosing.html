@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Document</title>
+    <style>
+        .container {
+            padding: 2rem 0rem;
+        }
+        #mybutton {
+            position: absolute;
+            left:330px
+        }
+
+    </style>
+
+</head>
+<body>
+<div th:replace="fragments/navbar" :: navbar>
+    Navbar
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <form th:action="@{/exercises/add}" th:object="${wrapperExercise}" method="post">
+
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th scope="col">Select</th>
+                        <th scope="col">Type of Sport</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="currentExercise, stat : ${wrapperExercise.exerciseDtoList}">
+                        <td>
+                            <input
+                                    type="checkbox"
+                                    th:name="|exerciseDtoList[${stat.index}].id|"
+                                    th:value="${currentExercise.getId()}"/>
+                        </td>
+                        <td th:text="${currentExercise.nameOfExercise}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <p><span th:text="${totalCalories}"></span></p>
+                <table class="table table-bordered">
+                    <tr>
+                        <th scope="col">Select</th>
+                        <!--      <th>Client ID</th>-->
+                        <th scope="col">Type of Food program</th>
+                    </tr>
+                    <tbody>
+                    <tr th:each="currentFood, stat : ${wrapperExercise.foodProgramDtos}">
+                        <td>
+                            <!--                <label th:for="|exerciseDtoList[${itemStat.index}].nameOfExercise|" th:text="${currentExercise.getNameOfExercise()}">Ex name</label>-->
+                            <input type="checkbox"
+                                   class="check"
+                                   th:name="|foodProgramDtos[${stat.index}].id|"
+                                   th:value="${currentFood.getId()} "
+                            /></td>
+                        <td th:text="${currentFood.goal} + ' ' +${currentFood.totalCal}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <p><span th:text="${foodCaloriesTotal}"></span></p>
+        </div>
+    </div>
+</div>
+<button id="mybutton" type="submit" value="submit" class="btn btn-success">Submit</button>
+</form>
+</body>
+<script>
+    $(document).ready(function () {
+        $('.check').click(function () {
+            $('.check').not(this).prop('checked', false);
+        });
+    });
+</script>
+</html>
+
+<!--//th:text е за изписване-->
+<!--//th:object е за пращане на данни-->
+<!--//th:field е за записване в конкретно поле-->

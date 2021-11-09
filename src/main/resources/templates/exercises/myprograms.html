@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+
+    <thead>
+    <tr>
+        <th>Number</th>
+        <th>Number of exercises</th>
+        <th>Food Program Goal</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="currentProgram : ${allPrograms}">
+        <td th:text="${currentProgram.id}">
+        <td>
+        <a th:href="@{/programs/myprograms/{id}(id = ${currentProgram.id})}">
+            <span th:text="${currentProgram.getExerciseEntityList().size()}"></span>
+        </a>
+        </td>
+        <td th:text="${currentProgram.goal}">
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
