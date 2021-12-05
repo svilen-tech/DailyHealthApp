@@ -11,6 +11,61 @@
     <link href="https://fonts.googleapis.com/css?family=Pattaya|Poppins:400,500&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
     <title>DailyHealth</title>
+    <style>
+
+        .dropbtn {
+            font-size: 1.5rem;
+            color: rgb(0, 1, 2);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px;
+            padding-left: 12px;
+            padding-right: 12px;
+            border-radius: 8px;
+            border: none;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            background: #F5F5F5;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: #F5F5F5;
+            min-width: 120px;
+            z-index: 2;
+        }
+
+        .dropdown-content a {
+            font-size: 1.5rem;
+            color: rgb(0, 1, 2);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px;
+            padding-right: 5px;
+            border-radius: 3px;
+
+        }
+
+        .dropdown-content a:hover {
+            color: rgb(255, 255, 255);
+            background-color: black;
+            transition: all ease-in-out 150ms;
+            font-size: 1.2rem;
+            padding: 3px;
+        }
+
+        .dropdown:hover .dropdown-content {display: block;}
+
+        .dropdown:hover .dropbtn {
+            color: rgb(255, 255, 255);
+            background-color: black;
+            transition: all ease-in-out 150ms;
+        }
+    </style>
 </head>
 
 <body>
@@ -22,14 +77,24 @@
     <nav>
         <h1 id="logo">DailyHealth</h1>
         <ul>
+
             <li>
                 <a th:href="@{/}">Home</a>
             </li>
             <li>
-                <a th:href="@{/calculators/both}">Calculators</a>
+                <a th:href="@{/exercises}">Exercises</a>
             </li>
             <li>
-                <a th:href="@{/products}">Products</a>
+                <a th:href="@{/calculators/bodyfat}">Calculators</a>
+            </li>
+            <li>
+                <div class="dropdown">
+                    <button class="dropbtn">Products</button>
+                    <div class="dropdown-content">
+                        <a th:href="@{/products/add}">Add</a><br>
+                        <a th:href="@{/products}">All</a>
+                    </div>
+                </div>
             </li>
             <li sec:authorize="isAnonymous()">
                 <a th:href="@{/users/login}">Login</a>
@@ -39,6 +104,16 @@
             </li>
             <li sec:authorize="isAuthenticated()">
                 <a href="/logout">Logout</a>
+            </li>
+            <li sec:authorize="isAuthenticated()">
+                <div class="dropdown">
+                    <button class="dropbtn">Profile</button>
+                    <div class="dropdown-content">
+                        <a th:href="@{/products/myproducts}">My Products</a>
+                        <a th:href="@{/programs/myprograms}">My Programs</a>
+                        <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin}">Admin</a>
+                    </div>
+                </div>
             </li>
             
         </ul>

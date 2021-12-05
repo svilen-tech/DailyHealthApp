@@ -63,7 +63,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public void addItToDatabase(List<ExerciseDto> exerciseDto, FoodProgramDto foodProgramDto,String username) {
+    public void addCurrentProgramToDatabase(List<ExerciseDto> exerciseDto, FoodProgramDto foodProgramDto, String username) {
         TrainingProgram personalTrainingProgram = new TrainingProgram();
         personalTrainingProgram.setExerciseEntityList(findExercisesBySpecificId(exerciseDto));
         personalTrainingProgram.setFoodProgram(foodProgramService.findFoodProgramById(foodProgramDto));

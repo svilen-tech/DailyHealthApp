@@ -53,7 +53,6 @@ main{
     grid-column: 5/9;
     grid-row:2/5;
     background-color: white;
-    background-color: white;
     padding:25px;
     border-radius:15px;
     box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.411);

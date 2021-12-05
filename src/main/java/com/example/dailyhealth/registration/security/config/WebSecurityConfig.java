@@ -32,6 +32,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 //За тези request-и се изисква клиента да е логнат
                 .authorizeRequests()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/foods/**").hasAnyRole("ADMIN","EDITOR")
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
 //                .antMatchers("/", "/users/login","/resources/**", "/users/register").permitAll()
 //
@@ -43,7 +45,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/users/login")
                 .permitAll()
                 .and()
-                .logout().logoutSuccessUrl("/").permitAll();
+                .logout()
+                .logoutSuccessUrl("/").permitAll();
 
     }
 

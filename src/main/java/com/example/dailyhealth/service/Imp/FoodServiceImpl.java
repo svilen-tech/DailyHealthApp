@@ -1,6 +1,7 @@
 package com.example.dailyhealth.service.Imp;
 
 import com.example.dailyhealth.model.dtos.FoodDto;
+import com.example.dailyhealth.model.dtos.FoodTransferDto;
 import com.example.dailyhealth.model.entities.Food;
 import com.example.dailyhealth.repository.FoodRepository;
 import com.example.dailyhealth.service.FoodService;
@@ -43,5 +44,11 @@ public class FoodServiceImpl implements FoodService {
          foodDtoList.add(modelMapper.map(all.get(i),FoodDto.class));
         }
         return foodDtoList;
+    }
+
+    @Override
+    public void addFood(FoodTransferDto foodDto) {
+        Food map = modelMapper.map(foodDto, Food.class);
+        foodRepository.save(map);
     }
 }

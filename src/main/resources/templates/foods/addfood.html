@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Food</title>
+</head>
+<body>
+<div th:replace="fragments/navbar" :: navbar>
+    Navbar
+</div>
+
+<form
+        th:action="@{/foods/addfood}"
+        method="post"
+        th:object="${foodTransferDto}">
+
+    <label for="food">Food:</label>
+    <input id="food" th:field="*{name}">
+    <label for="calories">Calories:</label>
+    <input id="calories" th:field="*{calories}">
+
+    <button>Add food</button>
+
+</form>
+
+</body>
+</html>

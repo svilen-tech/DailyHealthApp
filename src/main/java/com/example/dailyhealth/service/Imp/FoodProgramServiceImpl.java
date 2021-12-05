@@ -24,10 +24,7 @@ public class FoodProgramServiceImpl implements FoodProgramService {
       List< FoodProgramDto> dtos = new ArrayList<>();
         for (int i = 0; i < all.size(); i++) {
             dtos.add(modelMapper.map(all.get(i),FoodProgramDto.class));
-
         }
-        dtos.get(0).setGoal("Gain");
-        dtos.get(1).setGoal("Bulk");
         return dtos;
     }
 

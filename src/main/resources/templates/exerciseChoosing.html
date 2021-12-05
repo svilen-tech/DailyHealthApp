@@ -66,7 +66,7 @@
                                    th:name="|foodProgramDtos[${stat.index}].id|"
                                    th:value="${currentFood.getId()} "
                             /></td>
-                        <td th:text="${currentFood.goal} + ' ' +${currentFood.totalCal}"></td>
+                        <td th:text="${currentFood.goal} + ': Total calories -> ' +${currentFood.totalCal}"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -74,7 +74,7 @@
         </div>
     </div>
 </div>
-<button id="mybutton" type="submit" value="submit" class="btn btn-success">Submit</button>
+<button id="mybutton" type="submit" value="submit" class="btn btn-success">Save program</button>
 </form>
 </body>
 <script>

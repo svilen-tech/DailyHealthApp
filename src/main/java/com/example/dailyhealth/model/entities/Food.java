@@ -11,7 +11,7 @@ import javax.persistence.*;
 public class Food {
     @Id
     @Column(name="FOOD_ID")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private Integer calories;

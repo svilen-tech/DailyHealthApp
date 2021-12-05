@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>ONLY ADMINS ALLOWED</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Username</th>
+        <th>Role</th>
+        <th>Available Roles</th>
+    </tr>
+    </thead>
+
+    <tbody>
+
+    <tr th:each="user : ${users}">
+        <form
+                th:action="@{/admin}"
+                th:object="${usersRole}"
+                method="post">
+            <td th:text="${user.username}">
+            <td th:text="${user.role}">
+
+            <td>
+                <select name="role">
+                    <option value=""> Select Role</option>
+                    <option th:each="t : ${T(com.example.dailyhealth.registration.appuser.AppUserRole).values()}"
+                            th:text="${t}" th:value="${t}">
+                </select>
+            </td>
+            <td>
+
+                <input type="hidden" th:value="${user.username}" name="name">
+                <button type="submit">Change</button>
+
+            </td>
+        </form>
+    </tr>
+
+    </tbody>
+
+</table>
+
+</body>
+</html>

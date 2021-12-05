@@ -1,6 +1,7 @@
 package com.example.dailyhealth.registration.registration;
 
 
+import com.example.dailyhealth.model.dtos.ProductDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,20 +19,24 @@ public class UserController {
     private RegistrationService registrationService;
 
     @GetMapping("/register")
-    public String register(Model model) {
-        if (!model.containsAttribute("registrationRequest")) {
-            model.addAttribute("registrationRequest", new RegistrationRequest());
-        }
+    public String register() {
+//        if (!model.containsAttribute("registrationRequest")) {
+//            model.addAttribute("registrationRequest", new RegistrationRequest());
+//        }
         return "user/registration";
     }
 
+    @ModelAttribute("registrationRequest")
+    public RegistrationRequest request(){
+        return new RegistrationRequest();
+    }
     @PostMapping("/register")
     public String registerAdd(@Valid RegistrationRequest request, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
-        //ToDo: Connect redirected attributes to front-end to show errors
         if (bindingResult.hasErrors() || !request.getPassword().equals(request.getConfirmPassword())) {
-            redirectAttributes.addFlashAttribute("userRegistrationDto", request);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.request", bindingResult);
+            redirectAttributes.addFlashAttribute("registrationRequest", request);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registrationRequest",
+                    bindingResult);
             return "redirect:/users/register";
         }
         registrationService.register(request);

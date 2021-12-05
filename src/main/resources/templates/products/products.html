@@ -2,31 +2,22 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Products</title>
     <style>
-        #customers {
-            font-family: Arial, Helvetica, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
+        img {
+            min-width: 240px;
+            min-height: 240px;
+            max-width: 100%;
+            height: auto;
         }
 
-        #customers td, #customers th {
-            border: 1px solid #ddd;
-            padding: 8px;
-            color: black;
-            font-weight: bold;
-        }
-
-        #customers tr:nth-child(even){background-color: #f2f2f2;}
-
-        #customers tr:hover {background-color: #ddd;}
-
-        #customers th {
-            padding-top: 12px;
-            padding-bottom: 12px;
-            text-align: left;
-            background-color: #868a71;
-            color: white;
+        .box {
+            display: flex;
+            width: 360px;
+            min-height: 360px;
+            float: left;
+            margin: 3px;
+            padding: 3px;
         }
     </style>
 </head>
@@ -35,27 +26,13 @@
 <div th:replace="fragments/navbar" :: navbar>
     Navbar
 </div>
-
-
-<table id="customers">
-
-    <thead>
-    <tr>
-        <th>name</th>
-        <th class="col">For</th>
-        <th class="col">Price</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    <tr th:each="product : ${products}">
-        <td th:text="${product.name}">
-        <td th:text="${product.bestFor}">
-        <td th:text="${product.price}">
-
-    </tr>
-    </tbody>
-</table>
-
+<div class="box">
+    <div th:each="product : ${products}">
+        <img th:src="${product.getPictureViewModel().getUrl()}"/>
+        <h3 th:text="'Product name: '+${product.name}"></h3>
+        <h3 th:text="'Brand: '+${product.brand}"></h3>
+        <h3 th:text="'Price: '+${product.price}+'BGN'"></h3>
+    </div>
+</div>
 </body>
 </html>

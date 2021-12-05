@@ -10,5 +10,5 @@ public interface ExerciseService {
     String calculatedTotalCalories(List<ExerciseDto> exercise);
     List<ExerciseDto> returnExercises();
     List<ExerciseEntity> findExercisesBySpecificId(List<ExerciseDto> exerciseDto);
-    void addItToDatabase(List<ExerciseDto> exerciseDto, FoodProgramDto foodProgramDto,String username);
+    void addCurrentProgramToDatabase(List<ExerciseDto> exerciseDto, FoodProgramDto foodProgramDto, String username);
 }

@@ -10,4 +10,6 @@ public interface ProgramService {
 
     List<PersonalTrainingProgramDto> allPersonalTrainingProgramByName(String username);
     WrapperExerciseEntityDto detailsForExercise(Long id);
+
+    void deleteOffer(Long id);
 }

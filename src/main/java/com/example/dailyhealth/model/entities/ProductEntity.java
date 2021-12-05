@@ -1,5 +1,6 @@
 package com.example.dailyhealth.model.entities;
 
+import com.example.dailyhealth.model.PictureEntity;
 import com.example.dailyhealth.registration.appuser.AppUser;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,11 +16,17 @@ public class ProductEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String bestFor;
+    private String brand;
     private BigDecimal price;
     @ManyToOne(fetch = FetchType.EAGER)
     private AppUser appUser;
+    @OneToOne
+    private PictureEntity picture;
 
+    public ProductEntity setPicture(PictureEntity picture) {
+        this.picture = picture;
+        return this;
+    }
 
     public ProductEntity setId(Long id) {
         this.id = id;
@@ -31,8 +38,8 @@ public class ProductEntity {
         return this;
     }
 
-    public ProductEntity setBestFor(String bestFor) {
-        this.bestFor = bestFor;
+    public ProductEntity setBrand(String bestFor) {
+        this.brand = bestFor;
         return this;
     }
 

@@ -16,6 +16,7 @@
 <div th:replace="fragments/navbar" :: navbar>
     Navbar
 </div>
+<H1>Check how good you are training</H1>
 <div id="first" style="display:block">
     <form id="BodyMass" th:action="@{/calculators/bodymass}" th:object="${bodyMassDto}" method="post">
 
@@ -84,18 +85,13 @@
 <!--</form>-->
 <button onclick="Prev()">Prev</button>
 <button onclick="Next()">Next</button>
-<p onload="codeAddress();" id="kur"></p>
+
 </body>
 <script>
     var arr = ["first",
         "second"];
 
-    var index = 0;
-    function codeAddress() {
-        var current = document.getElementById("kur");
 
-    }
-    window.onload = codeAddress;
     function Next() {
         var current = document.getElementById(arr[index]);
         if (index<arr.length-1){

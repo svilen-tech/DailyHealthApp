@@ -5,11 +5,14 @@ import com.example.dailyhealth.model.dtos.calculators.BodyMassIndexDto;
 import com.example.dailyhealth.service.StandardCalculators;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("calculators")
@@ -26,13 +29,23 @@ public class CalculatorsController {
     public BodyMassIndexDto bodyMassDto() {
         return new BodyMassIndexDto();
     }
+    @GetMapping("/bmi")
+    public String bmiCalculator() {
+        return "calculator/body-mass";
+    }
 
+    @PostMapping("/bmi")
+    public String bodyMassIndexCalc(@Valid BodyMassIndexDto bodyMassIndexDto, BindingResult bindingResult,
+                                    RedirectAttributes redirectAttributes) {
 
-    @PostMapping("/bodymass")
-    public String bodyMassIndexCalc(BodyMassIndexDto bodyMassIndexDto, RedirectAttributes model) {
+        if (bindingResult.hasErrors()){
+            redirectAttributes.addFlashAttribute("bodyMassDto", bodyMassIndexDto);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.bodyMassDto", bindingResult);
+            return "redirect:/calculators/bmi";
+        }
         String bodyMassIndex = standardCalorieCalculator.calculateBodyMassIndex(bodyMassIndexDto);
-        model.addFlashAttribute("bodyMassIndex", bodyMassIndex);
-        return "redirect:/calculators/both";
+        redirectAttributes.addFlashAttribute("bodyMassIndex", bodyMassIndex);
+        return "redirect:/calculators/bmi";
     }
 
     //TODO: BODY FAT CONTROLLER
@@ -41,16 +54,22 @@ public class CalculatorsController {
         return new BodyFatIndexDto();
     }
 
-    @GetMapping("/both")
+    @GetMapping("/bodyfat")
     public String bodyFatPercentage() {
-        return "bothcalculatorshere";
+        return "calculator/body-fat";
     }
 
     @PostMapping("/bodyfat")
-    public String bodyFatPercentageCalc(BodyFatIndexDto bodyFatIndexDto, RedirectAttributes model) {
+    public String bodyFatPercentageCalc(@Valid BodyFatIndexDto bodyFatIndexDto, BindingResult bindingResult,
+                                        RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()){
+            redirectAttributes.addFlashAttribute("bodyFatDto", bodyFatIndexDto);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.bodyFatDto", bindingResult);
+            return "redirect:/calculators/bodyfat";
+        }
         String bodyFatPercent = standardCalorieCalculator.calculateBodyFat(bodyFatIndexDto);
-        model.addFlashAttribute("bodyFatPercentage", bodyFatPercent);
-        return "redirect:/calculators/both";
+        redirectAttributes.addFlashAttribute("bodyFatPercentage", bodyFatPercent);
+        return "redirect:/calculators/bodyfat";
     }
 
 

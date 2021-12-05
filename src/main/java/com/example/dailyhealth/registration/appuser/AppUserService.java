@@ -1,9 +1,12 @@
 package com.example.dailyhealth.registration.appuser;
 
 
+import com.example.dailyhealth.model.dtos.user.UserForAdminDto;
+import com.example.dailyhealth.registration.update.MobileUser;
 import com.example.dailyhealth.registration.registration.token.ConfirmationToken;
 import com.example.dailyhealth.registration.registration.token.ConfirmationTokenService;
-import lombok.AllArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,7 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class AppUserService implements UserDetailsService {
@@ -32,13 +36,38 @@ public class AppUserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
 
-//                AppUser appUser = appUserRepository.findByEmail(email).orElse(null);
-//                return appUser;
-
-        return appUserRepository.findByUsername(username)
+        AppUser appUser = appUserRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format(userException, username)));
+
+
+        return mapToUserDetails(appUser);
     }
 
+    private static UserDetails mapToUserDetails(AppUser userEntity) {
+
+        // GrantedAuthority is the representation of a user role in the
+        // spring world. SimpleGrantedAuthority is an implementation of GrantedAuthority
+        // which spring provides for our convenience.
+        // Our representation of role is UserRoleEntity
+        List<GrantedAuthority> auhtorities =
+                userEntity.
+                        getAuthorities().
+                        stream().
+                        map(r -> new SimpleGrantedAuthority("ROLE_" + r.getAuthority())).
+                        collect(Collectors.toList());
+
+
+        // User is the spring implementation of UserDetails interface.
+        return new MobileUser(
+                userEntity.getUsername(),
+                userEntity.getPassword(),
+                userEntity.getEnabled(),
+                userEntity.isAccountNonExpired(),
+                userEntity.isCredentialsNonExpired(),
+                userEntity.isAccountNonLocked(),
+                auhtorities
+        );
+    }
 
     public String signUpUser(AppUser appUser) {
 
@@ -56,13 +85,11 @@ public class AppUserService implements UserDetailsService {
 
         String token = UUID.randomUUID().toString();
 
-        ConfirmationToken confirmationToken =new ConfirmationToken(token, LocalDateTime.now(),
+        ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(),
                 LocalDateTime.now().plusMinutes(15),
                 appUser);
 
         confirmationTokenService.saveConfirmationToken(confirmationToken);
-
-
 
 
         return token;
@@ -71,5 +98,33 @@ public class AppUserService implements UserDetailsService {
 
     public int enableAppUser(String email) {
         return appUserRepository.enableAppUser(email);
+    }
+
+    public void changeRole(String username,String role){
+        Optional<AppUser> byUsername = appUserRepository.findByUsername(username);
+        if (byUsername.isEmpty()){
+            throw new IllegalStateException("User not found");
+        }
+        List<String> collect = Arrays.asList(AppUserRole.values()).stream().map(Enum::toString).collect(Collectors.toList());
+        if (!collect.contains(role)){
+            throw new IllegalStateException("Role not found");
+        }
+
+
+        byUsername.get().setAppUserRole(AppUserRole.valueOf(role));
+        appUserRepository.save(byUsername.get());
+
+    }
+
+
+
+    public List<UserForAdminDto> returnAllUsers(){
+        List<AppUser> all = appUserRepository.findAll();
+        List<UserForAdminDto> dtos = new ArrayList<>();
+        for (int i = 0; i <all.size() ; i++) {
+            dtos.add(new UserForAdminDto().setUsername(all.get(i).getUsername())
+                    .setRole(all.get(i).getAppUserRole().name()));
+        }
+        return dtos;
     }
 }

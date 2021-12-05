@@ -25,7 +25,18 @@ public class FoodProgram {
             inverseJoinColumns = @JoinColumn(name = "meal_id"))
     private List<Meal> meals = new ArrayList<>();
     private Integer totalCal= 0;
+    private String goal;
 
+
+    public FoodProgram setTotalCal(Integer totalCal) {
+        this.totalCal = totalCal;
+        return this;
+    }
+
+    public FoodProgram setGoal(String goal) {
+        this.goal = goal;
+        return this;
+    }
 
     private Integer caloriesTotale(){
         Integer total = 0;
@@ -44,5 +55,9 @@ public class FoodProgram {
         this.meals = meals;
         this.totalCal= totalCal+caloriesTotale();
         return this;
+    }
+    public void setSingleMeal(Meal meal){
+        totalCal=totalCal+meal.getCalories();
+        meals.add(meal);
     }
 }

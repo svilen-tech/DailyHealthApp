@@ -15,18 +15,22 @@
 
     <div class="input-parent">
         <label for="username">Username</label>
-        <input type="text" minlength="3" required="required" id="username"
+        <input type="text"  required="required" id="username"
                th:field="${registrationRequest.username}"><br>
+        <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" style="color: red;"></p>
 
         <label for="firstName">Firstname</label>
         <input type="text" minlength="3" required="required" id="firstName" th:field="${registrationRequest.firstName}"><br>
+        <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" style="color: red;"></p>
 
         <label for="lastName">Lastname</label>
         <input type="text" minlength="3" required="required" id="lastName"
                th:field="${registrationRequest.lastName}"><br>
+        <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" style="color: red;"></p>
 
         <label for="email">Email</label>
-        <input type="text" id="email" required="required" th:field="${registrationRequest.email}"><br>
+        <input type="email" id="email" required="required" th:field="${registrationRequest.email}"><br>
+        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red;"></p>
 
         <label for="password">Pass</label>
         <input type="password" minlength="5" required="required" id="password"

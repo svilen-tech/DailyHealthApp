@@ -6,7 +6,6 @@ import com.example.dailyhealth.model.dtos.ListExerciseDto;
 import com.example.dailyhealth.model.dtos.foodprogramdto.ListFoodProgramDto;
 import com.example.dailyhealth.service.ExerciseService;
 import com.example.dailyhealth.service.FoodProgramService;
-import com.example.dailyhealth.service.ProgramService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,7 +51,7 @@ public class ExerciseController {
         List<FoodProgramDto> foodProgramDto = listExerciseDto.getFoodProgramDtos().stream().filter(foodProgramDto1 -> foodProgramDto1.getId() != null)
                 .collect(Collectors.toList());
         final String currentUser = principal.getName();
-        exerciseService.addItToDatabase(exerciseDto, foodProgramDto.get(0), currentUser);
+        exerciseService.addCurrentProgramToDatabase(exerciseDto, foodProgramDto.get(0), currentUser);
         return "exercises/savedpersonalprogram";
 
     }

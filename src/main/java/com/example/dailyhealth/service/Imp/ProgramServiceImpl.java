@@ -7,6 +7,8 @@ import com.example.dailyhealth.model.entities.ExerciseEntity;
 import com.example.dailyhealth.model.entities.TrainingProgram;
 import com.example.dailyhealth.registration.appuser.AppUserRepository;
 import com.example.dailyhealth.repository.PersonalTrainingRepository;
+import com.example.dailyhealth.repository.PictureRepository;
+import com.example.dailyhealth.service.CloudinaryService;
 import com.example.dailyhealth.service.ProgramService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -25,6 +27,8 @@ public class ProgramServiceImpl implements ProgramService {
     private AppUserRepository appUserRepository;
     private ModelMapper modelMapper;
 
+
+
     @Override
     public List<PersonalTrainingProgramDto> allPersonalTrainingProgramByName(String username) {
 
@@ -36,8 +40,9 @@ public class ProgramServiceImpl implements ProgramService {
         List<PersonalTrainingProgramDto> dtoList = new ArrayList<>();
         for (int i = 0; i < collect.size(); i++) {
             TrainingProgram trainingProgram = collect.get(i);
-            trainingProgram.setGoal("Loose weight");
-            dtoList.add(modelMapper.map(trainingProgram, PersonalTrainingProgramDto.class));
+            PersonalTrainingProgramDto map = modelMapper.map(trainingProgram, PersonalTrainingProgramDto.class);
+            map.setGoal(trainingProgram.getGoal());
+            dtoList.add(map);
         }
         return dtoList;
     }
@@ -51,5 +56,11 @@ public class ProgramServiceImpl implements ProgramService {
         }
         return wrapperExerciseEntityDto;
 
+    }
+
+    @Override
+    public void deleteOffer(Long id) {
+
+        personalTrainingRepository.deleteById(id);
     }
 }
